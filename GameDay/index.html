@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ready Set Go!</title>
+    <link rel="icon" href="assets/icon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-image: url("assets/bg.jpg");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        img {
+            width: 900px;
+            height: auto;
+            max-width: 90%;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            border-radius: 12px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 90%;
+            max-width: 1000px;
+            margin-top: -250px;
+            flex-wrap: wrap;
+            gap: 40px;
+            z-index: 2;
+        }
+
+        .item {
+            flex: 1 1 calc(30% - 40px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(-250px) scale(0.8);
+            position: relative;
+            transition: none;
+        }
+
+        .rectangle {
+            width: 100%;
+            height: clamp(150px, 20vw, 300px);
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Removed box-shadow to eliminate outline */
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .item:nth-child(1) .rectangle {
+            background-image: url("assets/bingo.png");
+        }
+
+        .item:nth-child(2) .rectangle {
+            background-image: url("assets/rectangle2.jpg");
+        }
+
+        .item:nth-child(3) .rectangle {
+            background-image: url("assets/rectangle3.jpg");
+        }
+
+        .rectangle::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.0) 100%);
+            pointer-events: none;
+            animation: shimmer 3s infinite;
+        }
+
+        .label {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .item:hover .rectangle {
+            transform: translateY(-15px) scale(1.1);
+        }
+
+        .item:hover .label {
+            transform: scale(1.3);
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes popFromHeader {
+            0% {
+                opacity: 0;
+                transform: translateY(-250px) scale(0.8);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(10px) scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .item {
+                flex: 1 1 100%;
+            }
+
+            .container {
+                margin-top: -120px;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <img src="assets/header.png">
+
+    <div class="container">
+        <div class="item">
+            <div class="rectangle"></div>
+            <div class="label">B I N G O </div>
+        </div>
+        <div class="item">
+            <div class="rectangle"></div>
+            <div class="label">Center</div>
+        </div>
+        <div class="item">
+            <div class="rectangle"></div>
+            <div class="label">Right</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to trigger pop-out animation
+        function triggerPop() {
+            const items = document.querySelectorAll('.item');
+            items.forEach((item, index) => {
+                item.style.animation = 'none'; // reset
+                void item.offsetWidth; // force reflow
+                item.style.animation = `popFromHeader 0.8s forwards`;
+                item.style.animationDelay = `${index * 0.3}s`; // stagger
+            });
+        }
+
+        // Initial pop on load
+        window.addEventListener('load', () => {
+            triggerPop();
+            // Repeat every 1 minute (60000 ms)
+            setInterval(triggerPop, 60000);
+        });
+    </script>
+</body>
+
+</html>
