@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Full Screen Confetti</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            /* Prevent scrollbar */
+            background: linear-gradient(120deg, #f6d365, #fda085);
+            font-family: Arial, sans-serif;
+        }
+
+        .center-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        button {
+            padding: 20px 50px;
+            font-size: 22px;
+            border: none;
+            border-radius: 35px;
+            background: #ff4d6d;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #ff3354;
+            transform: scale(1.06);
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="center-box">
+        <button onclick="triggerEffects()">Celebrate 🎉</button>
+    </div>
+
+    <!-- Confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // ===== Confetti from both sides =====
+        function blastBothSides() {
+            // Left
+            confetti({
+                particleCount: 80,
+                angle: 60,
+                spread: 70,
+                origin: { x: 0, y: 0.8 }
+            });
+
+            // Right
+            confetti({
+                particleCount: 80,
+                angle: 120,
+                spread: 70,
+                origin: { x: 1, y: 0.8 }
+            });
+        }
+
+        // ===== Continuous falling confetti (full screen) =====
+        let continuousConfettiInterval;
+
+        function startContinuousConfetti() {
+            if (continuousConfettiInterval) return;
+
+            continuousConfettiInterval = setInterval(() => {
+                confetti({
+                    particleCount: 8,
+                    spread: 90,
+                    startVelocity: 15,
+                    origin: {
+                        x: Math.random(), // Anywhere on the top
+                        y: 0
+                    }
+                });
+            }, 180);
+        }
+
+        function stopContinuousConfetti() {
+            clearInterval(continuousConfettiInterval);
+            continuousConfettiInterval = null;
+        }
+
+        // ===== When button is clicked =====
+        function triggerEffects() {
+            blastBothSides();          // Burst from both sides
+            startContinuousConfetti(); // Falling confetti starts
+        }
+    </script>
+
+</body>
+
+</html>

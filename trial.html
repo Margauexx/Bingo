@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Charades Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f3f3f3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        #wordDisplay {
+            font-size: 48px;
+            font-weight: bold;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #timer {
+            margin-top: 25px;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 20px;
+            margin: 10px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .category-btn {
+            background: #2196f3;
+        }
+
+        .category-btn:hover {
+            background: #1e88e5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🎭 CHARADES 🎉</h1>
+
+        <div id="wordDisplay">Press a Category</div>
+
+        <div>
+            <button class="category-btn" onclick="pickWord('animals')">Animals</button>
+            <button class="category-btn" onclick="pickWord('movies')">Movies</button>
+            <button class="category-btn" onclick="pickWord('actions')">Actions</button>
+            <button class="category-btn" onclick="pickWord('people')">People</button>
+        </div>
+
+        <button onclick="startTimer()">Start 30s Timer</button>
+
+        <div id="timer">⏳ 30</div>
+    </div>
+
+    <script>
+        const words = {
+            animals: ["Lion", "Elephant", "Dolphin", "Kangaroo", "Dog", "Cat", "Giraffe"],
+            movies: ["Titanic", "Avatar", "Frozen", "Batman", "Harry Potter", "Jaws"],
+            actions: ["Dancing", "Swimming", "Running", "Cooking", "Sleeping", "Jumping"],
+            people: ["Teacher", "Doctor", "Police", "Chef", "Singer", "Athlete"]
+        };
+
+        let countdown;
+        let timeLeft = 30;
+
+        function pickWord(category) {
+            const list = words[category];
+            const randomIndex = Math.floor(Math.random() * list.length);
+            document.getElementById("wordDisplay").textContent = list[randomIndex];
+        }
+
+        function startTimer() {
+            clearInterval(countdown);
+            timeLeft = 30;
+            document.getElementById("timer").textContent = "⏳ " + timeLeft;
+
+            countdown = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").textContent = "⏳ " + timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById("timer").textContent = "⏳ Time's Up!";
+                    document.getElementById("wordDisplay").textContent = "⏰ Next Word!";
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+
+</html>
